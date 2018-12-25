@@ -139,6 +139,7 @@ func runReverse(cmd *Command, args []string) {
 	var ok bool
 	var lang string = "go"
 	var prefix string = "" //[SWH|+]
+	var suffix string = ""
 
 	cfgPath := path.Join(dir, "config")
 	info, err := os.Stat(cfgPath)
@@ -155,6 +156,10 @@ func runReverse(cmd *Command, args []string) {
 		//[SWH|+]
 		if j, ok := configs["prefix"]; ok {
 			prefix = j
+		}
+
+		if s, ok := configs["suffix"]; ok {
+			suffix = s
 		}
 	}
 
@@ -233,6 +238,10 @@ func runReverse(cmd *Command, args []string) {
 				if prefix != "" {
 					table.Name = strings.TrimPrefix(table.Name, prefix)
 				}
+				if suffix != "" {
+					table.Name = strings.TrimSuffix(table.Name, suffix)
+				}
+
 				tbls = append(tbls, table)
 			}
 
@@ -268,6 +277,9 @@ func runReverse(cmd *Command, args []string) {
 				//[SWH|+]
 				if prefix != "" {
 					table.Name = strings.TrimPrefix(table.Name, prefix)
+				}
+				if suffix != "" {
+					table.Name = strings.TrimSuffix(table.Name, suffix)
 				}
 				// imports
 				tbs := []*core.Table{table}
